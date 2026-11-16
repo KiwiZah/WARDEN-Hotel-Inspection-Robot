@@ -30,6 +30,20 @@ For the source-video inventory, slide references, historical trial figures, and 
           BME280 · AMG8833 · MQ135 ADC · Wi-Fi scan · TFT · servo · status LED
 ```
 
+## Engineering contributions
+
+**Zahrokhon Kodirova — hardware integration, sensing software, inspection pipeline, and testing**
+
+- **Hardware lead:** personally assembled, wired, connected, and troubleshot the Raspberry Pi, ESP32, camera, sensing modules, tilt servo/LED, and TFT hardware.
+- **Sensor systems:** developed the ESP32 and Python integration for the **AMG8833 thermal array**, **BME280 temperature/humidity/pressure**, **MQ-135 raw analog gas reading**, and **Wi-Fi signal/RSSI monitoring**.
+- **Detection and dashboard:** implemented the camera-based optical glint-detection design, multi-sensor inspection/data fusion software, environmental monitoring, and real-time local Flask dashboard.
+- **Guest-assistant interface:** implemented a **TFT LCD prototype** with Navigation Help, Call Staff, and Emergency Alert selections reflected in the local dashboard. This was a proof-of-concept interface, **not** a fully deployed virtual assistant or external hotel-staff notification system.
+- **Testing:** responsible for the hands-on sensor, wiring, software integration, and prototype troubleshooting/testing.
+
+**Other teammates' work:** TurtleBot3 base movement and joystick driving; automatic program startup and ready/celebration spins; the 3D model. WARDEN was a **Team SPECTRA** project, and these aspects are not attributed to Zahrokhon Kodirova.
+
+See [Detailed contributions and attribution](docs/CONTRIBUTIONS.md) for implementation details, collaborators' roles, and the distinction between historical prototype behavior and the cleaned source. **Implemented algorithms are not necessarily fully enabled or hardware-validated in the last saved configuration** (see the [recovery audit](docs/RECOVERY_AUDIT.md)).
+
 ## What is real, what is unavailable
 
 - **No generated or random telemetry.** ESP32 reads actual sensor APIs; missing/failed readings appear unavailable (`null`/blank), not substituted values.
