@@ -12,7 +12,7 @@ This register was assembled from the user-provided `SPECTRA, Taiwan(1).pptx` (17
 | 10 | `VAHMl3kEJa0.mp4` | ~13.77 s | Physical robot by floor markings, portrait footage | Movement/test footage, but does not establish autonomous line-following control mode |
 | 10 | `VAHMl1RZ6fs.mp4` | ~15.65 s | Physical robot moving in staged hotel-room environment, landscape footage | Strong candidate for portfolio demo; visual evidence of mobility in a controlled setup |
 
-The screenshots committed under `assets/images/` were extracted from the team's original embedded videos; they are **not AI-generated images or renders**. No source MP4 was committed to GitHub here. Obtain team consent before public redistribution of joint media.
+The screenshots committed under `assets/images/` were extracted from the team's original embedded videos; they are **not AI-generated images or renders**. The repository contains an edited silent prototype preview, **not the five unedited source MP4s**. The project owner reports team approval for public sharing of the selected media; this does not create an open media license.
 
 ## Useful visual source sections
 
@@ -38,7 +38,7 @@ The poster and slide 7 also describe the full optical/thermal/RF/AI pipeline. Bu
 2. Describe WARDEN as a **working university research prototype**; do not claim production hotel deployment or validated hidden-camera detection performance.
 3. Distinguish **joystick-controlled motion** from experimental line-following; black floor tape visible in footage is not proof that autonomous line-following worked.
 4. Present the **dashboard and physical touchscreen** as evidenced prototypes; distinguish illustrative operations UI from recorded telemetry and actual staff notification.
-5. Keep personal/group presentation recordings and original commercial video off public GitHub until everyone involved agrees to sharing them.
+5. Keep personal/group presentation recordings and original commercial video outside this repository unless there is separate approval for those particular materials.
 6. Publish method details and failure-mode handling, not unsupported precision/accuracy or statistical confidence claims.
 
 ## Source assets retained outside the repository
