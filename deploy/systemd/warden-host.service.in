@@ -1,0 +1,16 @@
+[Unit]
+Description=WARDEN warden-host (clean, hardware-backed)
+After=warden-joy.service warden-ros.service
+Wants=warden-joy.service warden-ros.service
+
+[Service]
+Type=simple
+User=@USER@
+WorkingDirectory=@PROJECT@
+EnvironmentFile=-@HOME@/.config/warden/warden.env
+ExecStart=@PROJECT@/scripts/run_host.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

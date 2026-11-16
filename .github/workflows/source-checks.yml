@@ -1,0 +1,28 @@
+name: WARDEN source checks
+
+on:
+  push:
+    branches: [main, reviewed-clean-code]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  offline-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Python offline source tests
+        run: python -m unittest discover -s tests -v
+      - name: Validate Bash syntax
+        run: |
+          for file in scripts/*.sh; do
+            bash -n "$file"
+          done

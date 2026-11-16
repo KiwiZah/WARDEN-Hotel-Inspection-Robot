@@ -1,0 +1,16 @@
+[Unit]
+Description=WARDEN warden-ros (clean, hardware-backed)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=@USER@
+WorkingDirectory=@PROJECT@
+EnvironmentFile=-@HOME@/.config/warden/warden.env
+ExecStart=@PROJECT@/scripts/run_ros.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

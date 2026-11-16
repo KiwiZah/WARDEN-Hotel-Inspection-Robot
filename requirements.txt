@@ -1,0 +1,5 @@
+# Install in venv created with --system-site-packages after ROS Humble is installed.
+Flask>=2.2,<4
+pyserial>=3.5,<4
+numpy>=1.21,<2
+# OpenCV and rclpy: use Raspberry Pi / ROS system packages, not this pip list.

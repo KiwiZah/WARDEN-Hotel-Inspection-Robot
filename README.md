@@ -1,69 +1,85 @@
-# WARDEN — Multi-Modal Hotel Privacy Inspection Robot
+# WARDEN — Hotel Privacy Inspection Robot
 
-*Engineering capstone project | Inha University | 2026 | Team SPECTRA*
+**Inha University capstone · Team SPECTRA · 2026 · reviewed source snapshot**
 
-WARDEN is a working research/engineering prototype that combines a TurtleBot3 mobile robot, a Raspberry Pi host, an ESP32 sensor interface, camera-based inspection, and a live web dashboard to investigate potential hidden-camera risks in hotel-room-like environments.
+WARDEN is a **research prototype** combining TurtleBot3 Burger, Raspberry Pi 4, ESP32 sensor hub, Logitech C920, tilt servo, ROS 2 Humble, and an inspection dashboard. It was demonstrated as a team engineering project; this repository represents a **cleaned, safety-reviewed reconstruction** from the recovered final shared source files. **The cleaned build has not yet been validated end-to-end on the original hardware.**
 
-The aim was to connect physical sensing, robot control, computer vision, and digital reporting in one inspection workflow—not to claim a production-ready security system.
+## Physical prototype and evidence
 
-## My contribution
+![WARDEN physical robot in a staged hotel-room test environment](assets/images/warden-prototype-room-test.jpg)
 
-As a member of Team SPECTRA, I led the hands-on development of the WARDEN prototype, including:
-- Selecting hardware components and planning their integration.
-- Assembling and configuring the working TurtleBot3-based prototype and attached sensors.
-- Developing and integrating Python-based host functionality, with AI-assisted coding support.
-- Connecting sensor readings, image-inspection logic, and a live monitoring dashboard.
-- Troubleshooting the hardware/software setup and conducting controlled demonstrations.
+*Actual WARDEN prototype photographed from the team’s Taiwan presentation video during a controlled room-layout demonstration. The floor markings are part of the test environment; the image alone does not establish autonomous navigation or detection accuracy.*
 
-This was a team capstone. This page describes my own technical contribution; credit for other team members' work is retained.
+![WARDEN touchscreen guest-assistant interface](assets/images/warden-touchscreen.jpg)
 
-## Prototype architecture
+*Actual touchscreen interaction from the team’s recorded demonstration. The recovered firmware sends guest events to a local dashboard; the image does not establish an external staff-dispatch integration.*
 
+**[Watch the 25-second WARDEN demonstration preview](assets/video/warden_demo_preview.mp4)** — real prototype footage showing room-test movement and the TFT interface, with silent captions; it does not substantiate detection accuracy. The selected video is currently hosted in this **private repository**. Public redistribution requires permission from the collaborators who own the footage. For source-video inventory, slide references, historical trial figures and differences between presentation claims and recovered code, see [Presentation evidence and provenance](docs/PRESENTATION_EVIDENCE.md) and [Media release checklist](docs/MEDIA_RELEASE.md). The five unedited source MP4 clips remain in the team's Taiwan PowerPoint and are not included in the repository.
+
+## Components
+
+```text
+  Android gamepad -> ROS2 /joy -> warden_teleop -> /cmd_vel -> TurtleBot3 OpenCR
+                                   ^
+                      /warden/scan_active (pause interlock)
+                                   |
+  C920 webcam -> WARDEN Python host / Flask dashboard (:8000)
+                                   |
+                      ESP32 serial PING/ENV/THERMAL/RF/EVENT/SERVO/LED/STATUS
+                                   |
+          BME280 · AMG8833 · MQ135 ADC · Wi-Fi scan · TFT · servo · status LED
 ```
-Camera + inspection head ───────┐
-                                │
-ESP32 sensor hub ── serial ── Raspberry Pi 4 ── Flask web dashboard
-                                │
-                            ROS 2 /cmd_vel
-                                │
-                           TurtleBot3 base
-```
 
-The recovered Python host script implements or configures:
-- Robot control: ROS 2 joystick messages and velocity commands to the TurtleBot3 base.
-- Image capture: camera frames from multiple servo angles.
-- Inspection: optional LED-on/LED-off image differences, AI-assisted vision checks, and supporting sensor signals.
-- Decision logic: weighted confidence scoring from available inspection signals.
-- Monitoring: a Flask dashboard showing inspection status, telemetry, alerts, and visual results.
+## Engineering contributions
 
-The prototype includes configurable features. Not all features were enabled at the same time in the recovered code snapshot: LED-based optical scanning and continuous YOLO detection were disabled in that saved configuration, and thermal readings were simulated. Final demonstration settings are being reconciled with project records.
+**Zahrokhon Kodirova — hardware integration, sensing software, inspection pipeline, and testing**
 
-## Technologies
+- **Hardware lead:** personally assembled, wired, connected, and troubleshot the Raspberry Pi, ESP32, camera, sensing modules, tilt servo/LED, and TFT hardware.
+- **Sensor systems:** developed the ESP32 and Python integration for the **AMG8833 thermal array**, **BME280 temperature/humidity/pressure**, **MQ-135 raw analog gas reading**, and **Wi-Fi signal/RSSI monitoring**.
+- **Detection and dashboard:** implemented the camera-based optical glint-detection design, multi-sensor inspection/data fusion software, environmental monitoring, and real-time local Flask dashboard.
+- **Guest-assistant interface:** implemented a **TFT LCD prototype** with Navigation Help, Call Staff, and Emergency Alert selections reflected in the local dashboard. This was a proof-of-concept interface, **not** a fully deployed virtual assistant or external hotel-staff notification system.
+- **Testing:** responsible for the hands-on sensor, wiring, software integration, and prototype troubleshooting/testing.
 
-Python · ROS 2 · TurtleBot3 · Raspberry Pi 4 · ESP32 · OpenCV · Flask · Serial communication · Sensor integration · Computer vision
+**Other teammates' work:** TurtleBot3 base movement and joystick driving; automatic program startup and ready/celebration spins; the 3D model. WARDEN was a **Team SPECTRA** project, and these aspects are not attributed to Zahrokhon Kodirova.
 
-## Testing and results
+See [Detailed contributions and attribution](docs/CONTRIBUTIONS.md) for implementation details, collaborators' roles, and the distinction between historical prototype behavior and the cleaned source. **Implemented algorithms are not necessarily fully enabled or hardware-validated in the last saved configuration** (see the [recovery audit](docs/RECOVERY_AUDIT.md)).
 
-WARDEN was demonstrated in a controlled, room-scale setup using planted camera-like targets and reflective non-camera objects. The project documented inspection outputs, confidence scores, and dashboard alerts.
+## What is real, what is unavailable
 
-Different presentation materials contain different target counts, so final quantitative results are being checked against the original test records before publication. These tests do not establish real-world hidden-camera detection reliability.
+- **No generated or random telemetry.** ESP32 reads actual sensor APIs; missing/failed readings appear unavailable (`null`/blank), not substituted values.
+- **Thermal:** requires functioning AMG8833; host now reads the firmware's `THERMAL` response. Unplugged -> unavailable.
+- **Environment:** BME280 readings are direct; MQ135 value is raw ADC (not ppm). Connectivity of the analog probe cannot be inferred from an ADC number alone.
+- **RF:** nearby Wi-Fi access-point RSSI readings, not a dedicated hidden-camera RF detector.
+- **Camera inspection:** captures real C920 frames at actual servo angles. Optional LED differential optical layer is **off until power verified**. Remote AI vision is **disabled by default** to protect room privacy. It requires explicit `WARDEN_ENABLE_AI=1`, a valid API key, consent, and network access. If unavailable, the verdict is `INCONCLUSIVE`.
+- **Driving:** exactly one ROS velocity publisher (teleop); host triggers scans and interlocks motion. Celebratory spins are disabled by default for safety.
+- **Line follower:** retained as an optional experimental ROS package, not enabled by the normal startup.
 
-## Current status
+## Layout
 
-- The working TurtleBot3 platform was returned to the university after the capstone.
-- Project posters, presentations, and demonstration evidence have been preserved.
-- A historical Python host file has been recovered; supporting ESP32 firmware, ROS 2 setup files, and final configurations are being collected.
-- The repository is being assembled and reviewed before public release.
+- `firmware/warden_sensor_hub/` — ESP32 Arduino sketch, `EVENT` support and sensor fault handling
+- `src/warden_host.py` — Flask dashboard, serial client, webcam and inspection
+- `src/warden_teleop.py` — ROS joystick teleoperation and scan safety interlock
+- `ros/drive_only.launch.py` — motor driver without LiDAR
+- `scripts/` and `deploy/systemd/` — explicit ROS Humble service deployment
+- `experimental/warden_line_follow/` — separate, unverified line-following experiment
+- `docs/RECOVERY_AUDIT.md` — reconstructed changes and original engineering limitations
+- `docs/HARDWARE_VERIFICATION.md` — required preflight/hardware tests
 
-## Documentation and demo
+## Reproducibility (Raspberry Pi Ubuntu + ROS Humble)
 
-Project poster, system diagrams, prototype photographs, and demonstration links will be organized here after checking their accuracy and sharing permissions.
+1. Verify the ESP32 firmware wiring and hardware against `docs/HARDWARE_VERIFICATION.md`. **Never flash blindly.**
+2. Install ROS 2 Humble, TurtleBot3 packages, joystick driver and platform system packages (including `python3-opencv` and `python3-rclpy`).
+3. Create a virtual environment with ROS system packages visible: `python3 -m venv --system-site-packages .venv` and `.venv/bin/pip install -r requirements.txt`.
+4. Create a local private environment file from `config/warden.env.example` at `~/.config/warden/warden.env`. Set correct serial port. Never commit secrets. The default dashboard binds **localhost only**; use a firewall/SSH tunnel for remote viewing.
+5. After hardware checks, on the Pi run `bash scripts/install_services.sh` to **install but not start** four services. Start/test in stages, observe logs, and validate the emergency stop.
+6. Use `python3 -m unittest discover -s tests -v` for offline logic checks.
 
-## Future improvements
+## Limitations and responsible claims
 
-- Reproduce the final tested configuration and document dependencies.
-- Validate camera, thermal, and RF sensor behavior with larger and more varied datasets.
-- Improve calibration and reduce false positives across different environments.
-- Evaluate more autonomous navigation and integration with hotel operations.
+This is a capstone demonstrator, **not a validated surveillance-detection or emergency-response product**. The reviewed host never transmits camera frames to remote AI by default; local captures remain sensitive test material. Touchscreen requests are shown on a local dashboard, not sent to hotel staff. Vision scores are heuristic, and historical quantitative test results have not been reproduced. Source audit and static checks are not substitutes for hardware integration tests.
 
-*Project context: Inha University, Engineering and Business Capstone Design (2026). Team SPECTRA.*
+Project was collaborative; this source package integrates team artifacts and preserves their provenance. No private keys, original SD images, or visitor camera captures are included.
+
+## Publication status
+
+The portfolio source, photos, and selected silent demo are stored in a **private GitHub repository**. Before switching visibility to public, confirm that jointly developed code, recorded footage, and team photographs can be redistributed and that university/project rights allow publication. A public code showcase can be released **without the video** if the video permissions are unavailable. The absence of a LICENSE file does not grant third parties permission to reuse the code. The cleaned build remains unverified on the original hardware.

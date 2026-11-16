@@ -1,0 +1,16 @@
+[Unit]
+Description=WARDEN warden-teleop (clean, hardware-backed)
+After=warden-host.service warden-ros.service
+Wants=warden-host.service warden-ros.service
+
+[Service]
+Type=simple
+User=@USER@
+WorkingDirectory=@PROJECT@
+EnvironmentFile=-@HOME@/.config/warden/warden.env
+ExecStart=@PROJECT@/scripts/run_teleop.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
