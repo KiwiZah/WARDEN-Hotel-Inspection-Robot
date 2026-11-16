@@ -4,6 +4,18 @@
 
 WARDEN is a **research prototype** combining TurtleBot3 Burger, Raspberry Pi 4, ESP32 sensor hub, Logitech C920, tilt servo, ROS 2 Humble, and an inspection dashboard. It was demonstrated as a team engineering project; this repository represents a **cleaned, safety-reviewed reconstruction** from the recovered final shared source files. **The cleaned build has not yet been validated end-to-end on the original hardware.**
 
+## Physical prototype and evidence
+
+![WARDEN physical robot in a staged hotel-room test environment](assets/images/warden-prototype-room-test.jpg)
+
+*Actual WARDEN prototype photographed from the team’s Taiwan presentation video during a controlled room-layout demonstration. The floor markings are part of the test environment; the image alone does not establish autonomous navigation or detection accuracy.*
+
+![WARDEN touchscreen guest-assistant interface](assets/images/warden-touchscreen.jpg)
+
+*Actual touchscreen interaction from the team’s recorded demonstration. The recovered firmware sends guest events to a local dashboard; the image does not establish an external staff-dispatch integration.*
+
+For the source-video inventory, slide references, historical trial figures, and differences between presentation claims and recovered code, see [Presentation evidence and provenance](docs/PRESENTATION_EVIDENCE.md). The five MP4 clips remain in the team's original Taiwan PowerPoint, **not in this repository** pending media-sharing approval and selection of an appropriate video host.
+
 ## Components
 
 ```text
