@@ -5,20 +5,21 @@ WARDEN host - integrated inspection + monitoring + dashboard.
 Runs on the Raspberry Pi (the robot's brain). It:
   * talks to the ESP32 sensor hub over serial (ENV / THERMAL / RF / SERVO / LED / STATUS / EVENT)
   * reads the C920 camera
-  * drives the robot base from the joystick (left stick -> /cmd_vel)
+  * monitors ROS joystick scan requests; separate teleop node drives the base
   * ON DEMAND (X button / dashboard): runs a hidden-camera inspection sweep
-      - servo pans the head, LED flashes, differential glint detection (image layer)
-      - an AI vision model confirms whether a lens is actually present (AI layer)
-      - optical + AI + thermal + RF fuse into one confidence score + verdict
+      - servo pans the head; optional LED-assisted differential glint detection
+      - optional, explicitly enabled remote vision assessment (not proof of a lens)
+      - available optical + AI + thermal + Wi-Fi signals feed a heuristic verdict
       - reports WHERE the suspected device is (annotated frame + region label)
   * mirrors the guest TFT buttons onto the dashboard (EVENT -> alert banner):
       navigation request / call staff / EMERGENCY
   * serves a live web dashboard at http://<pi-ip>:8000
 
 Run order (no lidar driver, to avoid the CP2102 port clash with the ESP32):
-    ros2 launch ~/drive_only.launch.py     # motors (turtlebot3_node on OpenCR/ttyACM0)
+    ros2 launch ros/drive_only.launch.py  # motors (OpenCR)
     ros2 run joy joy_node                  # gamepad -> /joy
-    python3 warden_host.py                 # ESP32 + camera + driving + dashboard
+    python3 src/warden_host.py            # ESP32 + camera + scan + dashboard
+    python3 src/warden_teleop.py          # sole ROS /cmd_vel publisher
 """
 
 import os
@@ -111,7 +112,7 @@ class CFG:
     SUSPICIOUS_AT = 0.55                   # tau
 
     # --- AI vision (OpenAI) - confirms a camera lens in the best frame ---
-    USE_AI = True
+    USE_AI = os.environ.get("WARDEN_ENABLE_AI", "0") == "1"  # external image upload needs explicit opt-in
     AI_MODEL = "gpt-4o-mini"               # cheap vision model; "gpt-4o" for stronger
     AI_TIMEOUT = 15                        # seconds; fails soft if no internet / no key
 
@@ -148,8 +149,10 @@ def _load_env_file():
 
 _load_env_file()
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
-if not OPENAI_API_KEY:
-    print("[env] OPENAI_API_KEY not set - AI vision will be OFF (verdict capped at RF weight)")
+if not CFG.USE_AI:
+    print("[ai] remote vision disabled by default; set WARDEN_ENABLE_AI=1 only with consent")
+elif not OPENAI_API_KEY:
+    print("[ai] WARDEN_ENABLE_AI=1 but OPENAI_API_KEY is absent; scans will be INCONCLUSIVE")
 
 
 # ============================== SHARED STATE ==============================
@@ -362,8 +365,8 @@ def capture_pair(esp, cap):
 
 # ============================== AI VISION (image detection) ==============================
 def ai_vision_check(frame_bgr):
-    """Ask an OpenAI vision model whether a camera lens is visible in the frame.
-    Fails soft: any error (no key, no internet, bad response) returns 'not present'."""
+    """Send a camera image to an external vision API only after explicit opt-in.
+    Missing consent/key/API response makes vision unavailable (never a negative test)."""
     if not CFG.USE_AI or not OPENAI_API_KEY or frame_bgr is None:
         return {"available": False, "present": False, "confidence": 0.0, "box": None, "note": "ai off"}
     try:
@@ -1062,7 +1065,7 @@ def main():
 
     threading.Thread(target=sensor_loop, args=(esp,), daemon=True).start()
     threading.Thread(target=scan_watchdog, daemon=True).start()
-    threading.Thread(target=ros_joy_loop, daemon=True).start()          # drive + scan
+    threading.Thread(target=ros_joy_loop, daemon=True).start()          # joystick scan requests + motion state only
     threading.Thread(target=inspection_worker, args=(esp, cap), daemon=True).start()
 
     print(f"Dashboard listening on {CFG.SERVER_HOST}:{CFG.SERVER_PORT}")

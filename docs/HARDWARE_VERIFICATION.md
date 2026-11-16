@@ -12,3 +12,5 @@
 10. If AI is offline/has no key, a scan must show `INCONCLUSIVE` rather than `CLEAR`.
 
 **Unverified in this delivery:** Full Arduino compilation, physical wiring, ESP32 flash content, camera performance, robot boot, actual detection accuracy. All source-level checks and offline tests are separate from hardware verification.
+
+11. **Privacy before any external AI call:** default `WARDEN_ENABLE_AI=0` prevents remote image uploads. Only set it to `1` after explicit consent, a camera privacy review, and controlled test conditions. Verify the remote service policy and make sure no bystanders or sensitive room details are in frames.

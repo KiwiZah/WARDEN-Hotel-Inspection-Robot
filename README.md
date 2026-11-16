@@ -14,7 +14,7 @@ WARDEN is a **research prototype** combining TurtleBot3 Burger, Raspberry Pi 4, 
 
 *Actual touchscreen interaction from the team’s recorded demonstration. The recovered firmware sends guest events to a local dashboard; the image does not establish an external staff-dispatch integration.*
 
-For the source-video inventory, slide references, historical trial figures, and differences between presentation claims and recovered code, see [Presentation evidence and provenance](docs/PRESENTATION_EVIDENCE.md). The five MP4 clips remain in the team's original Taiwan PowerPoint, **not in this repository** pending media-sharing approval and selection of an appropriate video host.
+For the source-video inventory, slide references, historical trial figures, and differences between presentation claims and recovered code, see [Presentation evidence and provenance](docs/PRESENTATION_EVIDENCE.md). Check the [media-sharing checklist](docs/MEDIA_RELEASE.md) before making any video or team presentation public. The five MP4 clips remain in the team's original Taiwan PowerPoint, **not in this repository** pending media-sharing approval and selection of an appropriate video host.
 
 ## Components
 
@@ -50,7 +50,7 @@ See [Detailed contributions and attribution](docs/CONTRIBUTIONS.md) for implemen
 - **Thermal:** requires functioning AMG8833; host now reads the firmware's `THERMAL` response. Unplugged -> unavailable.
 - **Environment:** BME280 readings are direct; MQ135 value is raw ADC (not ppm). Connectivity of the analog probe cannot be inferred from an ADC number alone.
 - **RF:** nearby Wi-Fi access-point RSSI readings, not a dedicated hidden-camera RF detector.
-- **Camera inspection:** captures real C920 frames at actual servo angles. Optional LED differential optical layer is **off until power verified**. AI vision needs an explicit API key and external connection; if unavailable, classification is `INCONCLUSIVE`.
+- **Camera inspection:** captures real C920 frames at actual servo angles. Optional LED differential optical layer is **off until power verified**. Remote AI vision is **disabled by default** to protect room privacy. It requires explicit `WARDEN_ENABLE_AI=1`, a valid API key, consent, and network access. If unavailable, the verdict is `INCONCLUSIVE`.
 - **Driving:** exactly one ROS velocity publisher (teleop); host triggers scans and interlocks motion. Celebratory spins are disabled by default for safety.
 - **Line follower:** retained as an optional experimental ROS package, not enabled by the normal startup.
 
@@ -76,6 +76,6 @@ See [Detailed contributions and attribution](docs/CONTRIBUTIONS.md) for implemen
 
 ## Limitations and responsible claims
 
-This is a capstone demonstrator, **not a validated surveillance-detection or emergency-response product**. Touchscreen requests are shown on a local dashboard, not sent to hotel staff. Vision scores are heuristic, and historical quantitative test results have not been reproduced. Source audit and static checks are not substitutes for hardware integration tests.
+This is a capstone demonstrator, **not a validated surveillance-detection or emergency-response product**. The reviewed host never transmits camera frames to remote AI by default; local captures remain sensitive test material. Touchscreen requests are shown on a local dashboard, not sent to hotel staff. Vision scores are heuristic, and historical quantitative test results have not been reproduced. Source audit and static checks are not substitutes for hardware integration tests.
 
 Project was collaborative; this source package integrates team artifacts and preserves their provenance. No private keys, original SD images, or visitor camera captures are included.

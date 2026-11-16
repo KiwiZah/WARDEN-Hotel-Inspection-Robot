@@ -20,7 +20,7 @@ This repository is a reviewed reconstruction from the team's final shared code, 
 - Remote AI failure, missing camera, missing thermal/Wi-Fi telemetry, or scan exception -> `INCONCLUSIVE`, never a false negative `CLEAR`.
 - Protected long-running scan against incorrectly resetting status while thread still works.
 - Switched ROS driver to motors-only launch; boot services start host before teleop to make scan interlock available.
-- Explicit opt-in for LED and celebratory spins; hardware validation required.
+- Explicit opt-in for LED, celebratory spins, **and remote AI image uploads**; hardware validation and privacy consent required.
 - Corrected touchscreen copy: the TFT queues an alert for the host to poll, **not an actual hotel staff notification**.
 - No secrets, system images, caches, captures, or private logs are committed.
 

@@ -38,6 +38,13 @@ class SourceContractTests(unittest.TestCase):
         self.assertIn('"verdict": "INCONCLUSIVE", "confidence": None', host)
         self.assertIn('or not thermal_valid or not rf_valid', host)
 
+    def test_ai_remote_upload_requires_explicit_opt_in(self):
+        src = (ROOT / "src/warden_host.py").read_text()
+        config = (ROOT / "config/warden.env.example").read_text()
+        self.assertIn('USE_AI = os.environ.get("WARDEN_ENABLE_AI", "0") == "1"', src)
+        self.assertIn('if not CFG.USE_AI or not OPENAI_API_KEY or frame_bgr is None', src)
+        self.assertIn('WARDEN_ENABLE_AI=0', config)
+
     def test_no_embedded_credentials(self):
         for path in ROOT.rglob('*'):
             if path.is_file() and path.suffix not in ('.pyc',) and path.name != 'test_static_contracts.py':
