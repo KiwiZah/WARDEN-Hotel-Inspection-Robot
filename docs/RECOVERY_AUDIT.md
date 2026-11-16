@@ -17,7 +17,7 @@ This repository is a reviewed reconstruction from the team's final shared code, 
 - Removed simulated thermal telemetry entirely. Firmware returns JSON null if AMG8833 absent/read fails; the host displays unavailable.
 - Added bounded command replies and filtering of asynchronous serial debug messages.
 - Separated motor control from scan/dashboard: **teleop is sole publisher** to `/cmd_vel`, host publishes `/warden/scan_active`; teleop stops and fails closed if interlock or joystick goes stale.
-- Remote AI failure or missing camera -> `INCONCLUSIVE`, never a false negative `CLEAR`.
+- Remote AI failure, missing camera, missing thermal/Wi-Fi telemetry, or scan exception -> `INCONCLUSIVE`, never a false negative `CLEAR`.
 - Protected long-running scan against incorrectly resetting status while thread still works.
 - Switched ROS driver to motors-only launch; boot services start host before teleop to make scan interlock available.
 - Explicit opt-in for LED and celebratory spins; hardware validation required.
