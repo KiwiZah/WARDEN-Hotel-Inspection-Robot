@@ -14,7 +14,7 @@ WARDEN is a **research prototype** combining TurtleBot3 Burger, Raspberry Pi 4, 
 
 *Actual touchscreen interaction from the team’s recorded demonstration. The recovered firmware sends guest events to a local dashboard; the image does not establish an external staff-dispatch integration.*
 
-For the source-video inventory, slide references, historical trial figures, and differences between presentation claims and recovered code, see [Presentation evidence and provenance](docs/PRESENTATION_EVIDENCE.md). Check the [media-sharing checklist](docs/MEDIA_RELEASE.md) before making any video or team presentation public. The five MP4 clips remain in the team's original Taiwan PowerPoint, **not in this repository** pending media-sharing approval and selection of an appropriate video host.
+**[Watch the 25-second WARDEN demonstration preview](assets/video/warden_demo_preview.mp4)** — real prototype footage showing room-test movement and the TFT interface, with silent captions; it does not substantiate detection accuracy. The selected video is hosted **only on this private review branch** pending team permission for public redistribution. For source-video inventory, slide references, historical trial figures and differences between presentation claims and recovered code, see [Presentation evidence and provenance](docs/PRESENTATION_EVIDENCE.md) and [Media release checklist](docs/MEDIA_RELEASE.md). The five unedited source MP4 clips remain in the team's Taiwan PowerPoint and are not included in the repository.
 
 ## Components
 
