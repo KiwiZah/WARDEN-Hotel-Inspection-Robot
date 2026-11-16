@@ -1,17 +1,25 @@
-# Demo-media review and sharing permissions
+# Demonstration-media provenance and sharing
 
-The original **Taiwan team presentation** contains five embedded MP4 files. The team poster is a separate PDF. Both are historical shared-team materials; the repository presently includes **three still frames of the physical robot and touchscreen**, not the original media files.
+The project owner reports that **Team SPECTRA approved public sharing** of the WARDEN source code, selected real-prototype photographs, and the edited demonstration preview included in this repository. This note records that statement; it is not an independently obtained media release.
 
-## Prepared showcase preview (private GitHub review)
+## What is included
 
-A separate approximately 25-second, **silent**, subtitled video draft named `WARDEN_demo_preview.mp4` was assembled from four of the five source clips for the project owner's private review. It uses only actual recorded prototype footage. The captions describe visible movement and touchscreen activity—not detection accuracy, autonomous navigation, external notifications, or production deployments. The selected preview is committed at `assets/video/warden_demo_preview.mp4` in the **private GitHub repository**. This does not grant public redistribution permission.**
+- `assets/video/warden_demo_preview.mp4`: an approximately 25-second **silent, captioned edit** of original team footage, showing the physical robot in a controlled test-room layout and the TFT interface.
+- Three actual video-frame stills in `assets/images/` showing the physical prototype and touchscreen.
+- Source code and project documentation with attribution for shared team artifacts.
 
-## Before any public distribution
+The edited footage **does not prove** a validated detection rate, fully autonomous room navigation, live dispatch to hotel staff, or a commercial deployment.
 
-1. Confirm with collaborating team members that joint slide media and video footage can be redistributed publicly and that university display requirements are met.
-2. Review all frames and audio for faces, names, private property, project partners, bystanders, and any sensitive personal or hotel-room information. The preview is silent, but source clips may contain audio.
-3. Confirm image and music ownership or remove third-party materials. Do not treat presentation inclusion as a transferable public license.
-4. Keep conceptual website, hotel operations dashboards, product renders and graphics labeled as **conceptual**—not evidence of an actual hotel deployment.
-5. If publishing a video later, describe it as **prototype footage** and supply a stable approved URL. Do not claim historical detection performance from this footage.
+## What is not included
 
-The private repository may continue showing authentic device-only stills and the selected preview; do not make the repository public without the relevant redistribution permissions. Do not switch the repo to public until this checklist and the code review are complete.
+The five **unedited** MP4 clips remain in the original Taiwan PowerPoint. The full presentation, team-speaking footage, original promotional video, poster with QR codes, and potentially identifying media are not automatically published.
+
+## Publication safeguards
+
+- Treat team permission to show the **selected** footage as separate from an open license to redistribute or commercially reuse it.
+- Check any later media additions for faces, bystanders, names, QR codes, third-party music or branding, and confidential/private settings.
+- Label product renders and conceptual hotel-system visuals as **conceptual**.
+- Keep performance claims tied to independently documented tests; avoid extrapolating from promotional footage.
+- Public exposure is persistent: copies and forks may remain after changing repository settings.
+
+For source and slide references, see [Presentation evidence](PRESENTATION_EVIDENCE.md). For implementation limitations, see [Recovery audit](RECOVERY_AUDIT.md).
