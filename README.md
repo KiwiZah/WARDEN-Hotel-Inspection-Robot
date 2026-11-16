@@ -14,7 +14,7 @@ WARDEN is a **research prototype** combining TurtleBot3 Burger, Raspberry Pi 4, 
 
 *Actual touchscreen interaction from the team’s recorded demonstration. The recovered firmware sends guest events to a local dashboard; the image does not establish an external staff-dispatch integration.*
 
-**[Watch the 25-second WARDEN demonstration preview](assets/video/warden_demo_preview.mp4)** — real prototype footage showing room-test movement and the TFT interface, with silent captions; it does not substantiate detection accuracy. The selected video is hosted **only on this private review branch** pending team permission for public redistribution. For source-video inventory, slide references, historical trial figures and differences between presentation claims and recovered code, see [Presentation evidence and provenance](docs/PRESENTATION_EVIDENCE.md) and [Media release checklist](docs/MEDIA_RELEASE.md). The five unedited source MP4 clips remain in the team's Taiwan PowerPoint and are not included in the repository.
+**[Watch the 25-second WARDEN demonstration preview](assets/video/warden_demo_preview.mp4)** — real prototype footage showing room-test movement and the TFT interface, with silent captions; it does not substantiate detection accuracy. The selected video is currently hosted in this **private repository**. Public redistribution requires permission from the collaborators who own the footage. For source-video inventory, slide references, historical trial figures and differences between presentation claims and recovered code, see [Presentation evidence and provenance](docs/PRESENTATION_EVIDENCE.md) and [Media release checklist](docs/MEDIA_RELEASE.md). The five unedited source MP4 clips remain in the team's Taiwan PowerPoint and are not included in the repository.
 
 ## Components
 
@@ -79,3 +79,7 @@ See [Detailed contributions and attribution](docs/CONTRIBUTIONS.md) for implemen
 This is a capstone demonstrator, **not a validated surveillance-detection or emergency-response product**. The reviewed host never transmits camera frames to remote AI by default; local captures remain sensitive test material. Touchscreen requests are shown on a local dashboard, not sent to hotel staff. Vision scores are heuristic, and historical quantitative test results have not been reproduced. Source audit and static checks are not substitutes for hardware integration tests.
 
 Project was collaborative; this source package integrates team artifacts and preserves their provenance. No private keys, original SD images, or visitor camera captures are included.
+
+## Publication status
+
+The portfolio source, photos, and selected silent demo are stored in a **private GitHub repository**. Before switching visibility to public, confirm that jointly developed code, recorded footage, and team photographs can be redistributed and that university/project rights allow publication. A public code showcase can be released **without the video** if the video permissions are unavailable. The absence of a LICENSE file does not grant third parties permission to reuse the code. The cleaned build remains unverified on the original hardware.
