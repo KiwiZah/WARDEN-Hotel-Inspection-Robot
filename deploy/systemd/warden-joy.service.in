@@ -1,0 +1,16 @@
+[Unit]
+Description=WARDEN warden-joy (clean, hardware-backed)
+After=warden-ros.service
+Wants=warden-ros.service
+
+[Service]
+Type=simple
+User=@USER@
+WorkingDirectory=@PROJECT@
+EnvironmentFile=-@HOME@/.config/warden/warden.env
+ExecStart=@PROJECT@/scripts/run_joy.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
