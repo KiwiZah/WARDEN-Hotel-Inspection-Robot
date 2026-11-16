@@ -33,6 +33,11 @@ class SourceContractTests(unittest.TestCase):
         self.assertIn('min\\\":null', firmware)
         self.assertIn('line == "EVENT"', firmware)
 
+    def test_failures_do_not_report_clear(self):
+        host = (ROOT / "src/warden_host.py").read_text()
+        self.assertIn('"verdict": "INCONCLUSIVE", "confidence": None', host)
+        self.assertIn('or not thermal_valid or not rf_valid', host)
+
     def test_no_embedded_credentials(self):
         for path in ROOT.rglob('*'):
             if path.is_file() and path.suffix not in ('.pyc',) and path.name != 'test_static_contracts.py':
