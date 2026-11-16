@@ -520,7 +520,10 @@ def run_inspection(esp, cap):
         # Fusion score is a heuristic, not a calibrated probability.
         confidence = (CFG.W_OPTICAL * s_optical + CFG.W_AI * s_ai
                       + CFG.W_THERMAL * (s_thermal or 0) + CFG.W_RF * (s_rf or 0))
-        verdict = ("INCONCLUSIVE" if not ai.get("available") or not shots else
+        # The result cannot certify a room as clear if a required sensing layer is missing.
+        # Wi-Fi/thermal signals are contextual, but missing feeds are explicitly inconclusive.
+        verdict = ("INCONCLUSIVE" if not ai.get("available") or not shots
+                   or not thermal_valid or not rf_valid else
                    "SUSPICIOUS" if confidence >= CFG.SUSPICIOUS_AT else "clear")
 
         # ---- where is it? region from the strong-glint cluster (+ AI box) ----
@@ -609,6 +612,13 @@ def inspection_worker(esp, cap):
         except Exception as ex:
             print("[inspect] error:", ex)
             with STATE_LOCK:
+                STATE.last_inspection = {
+                    "time": time.strftime("%H:%M:%S"),
+                    "verdict": "INCONCLUSIVE", "confidence": None,
+                    "ai_available": False, "ai_note": "scan failed",
+                    "error": type(ex).__name__, "per_angle": [],
+                }
+                STATE.updated = time.time()
                 STATE.status = "idle"
                 STATE.scan_started = 0.0
 
